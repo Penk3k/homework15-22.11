@@ -1,0 +1,16 @@
+# id из таблицы Passenger связан с passenger из таблицы Pass_in_trip,
+# это и лежит в основе решения
+SELECT name, COUNT(*) AS count
+FROM Passenger 
+# Таблица Pass_in_trip устроена таким образом, что один её кортеж соответствует
+# одному полёту одного пассажира. Так что INNER JOIN (пересечение множеств)
+# в этом случае даст ограничение на min полётов = 1
+# (если пассажира нет в таблице Pass_in_trip, то он никогда не летал,
+# а INNER JOIN выдаст всё, что встречается в ОБОИХ таблицах сразу).
+INNER JOIN Pass_in_trip
+    ON Passenger.id=Pass_in_trip.passenger
+GROUP BY Passenger
+# Для решения можно добавить строку
+# HAVING COUNT(trip) > 0
+# но при текущей структуре данных и использовании INNER JOIN, это лишнее
+ORDER BY COUNT(trip) DESC, name; 
