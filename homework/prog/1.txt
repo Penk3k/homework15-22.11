@@ -1,0 +1,18 @@
+#если я правильно понял, нужно найти именно ПАРУ (вернее, индексы пары), которая в сумме даст target
+#(написано на питоне 3.7.9)
+
+def find(nums,target):
+
+    ans = (None,None)
+    part_sum_dict = {}
+    cur_part_sum = 0
+    
+    for i in range(len(nums)):
+        cur_part_sum += nums[i]
+        part_sum_dict[cur_part_sum] = i
+        
+        if (cur_part_sum - target) in part_sum_dict:
+            ans = (part_sum_dict[cur_part_sum-target]+1,i)
+            
+    
+    return ans
